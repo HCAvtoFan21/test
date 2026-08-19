@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивный симулятор - ЭЛОу АВТ</title>
+    <link rel="stylesheet" href="css/simulator.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo"><a href="index.html">ЭЛОу АВТ</a></div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">На главную</a></li>
+                    <li><a href="index.html#features">Возможности</a></li>
+                    <li><a href="simulator.html" class="active">Симулятор</a></li>
+                    <li><a href="index.html#contact">Контакты</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section class="simulator-header">
+        <div class="container">
+            <h1>Интерактивный симулятор ЭЛОу АВТ</h1>
+            <p>Управляйте оборудованием в виртуальной среде</p>
+        </div>
+    </section>
+
+    <section class="simulator-container">
+        <div class="container">
+            <div class="simulator-layout">
+                <!-- Левая колонка - Визуализация -->
+                <div class="simulator-viewport">
+                    <div class="equipment-screen">
+                        <div class="screen-header">
+                            <span>Система управления ЭЛОу АВТ v2.1</span>
+                            <span class="time" id="systemTime">00:00:00</span>
+                        </div>
+                        
+                        <div class="equipment-display">
+                            <div class="display-section">
+                                <h3>Основные параметры</h3>
+                                <div class="parameter-group">
+                                    <div class="parameter">
+                                        <span class="param-name">Напряжение питания:</span>
+                                        <span class="param-value" id="voltage">230V</span>
+                                    </div>
+                                    <div class="parameter">
+                                        <span class="param-name">Ток системы:</span>
+                                        <span class="param-value" id="current">0.0A</span>
+                                    </div>
+                                    <div class="parameter">
+                                        <span class="param-name">Температура:</span>
+                                        <span class="param-value" id="temperature">25°C</span>
+                                    </div>
+                                    <div class="parameter">
+                                        <span class="param-name">Давление:</span>
+                                        <span class="param-value" id="pressure">1.0 Bar</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="display-section">
+                                <h3>Статус системы</h3>
+                                <div class="status-indicator">
+                                    <div class="status-dot" id="statusDot"></div>
+                                    <span id="statusText">Система готова</span>
+                                </div>
+                            </div>
+
+                            <div class="display-section">
+                                <h3>Режимы работы</h3>
+                                <div class="mode-display" id="modeDisplay">
+                                    <div class="mode-item">Нормальный режим</div>
+                                </div>
+                            </div>
+
+                            <div class="display-section">
+                                <h3>События системы</h3>
+                                <div class="events-log" id="eventsLog">
+                                    <div class="event">Система инициализирована</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="screen-footer">
+                            <span>Нажимайте кнопки ниже для управления</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Правая колонка - Панель управления -->
+                <div class="control-panel">
+                    <div class="panel-section">
+                        <h3>Основное управление</h3>
+                        <div class="control-group">
+                            <button class="control-btn power-btn" id="powerBtn">
+                                <span class="btn-icon">⚡</span>
+                                <span class="btn-label">Включить питание</span>
+                            </button>
+                            <button class="control-btn" id="startBtn" disabled>
+                                <span class="btn-icon">▶</span>
+                                <span class="btn-label">Запустить</span>
+                            </button>
+                            <button class="control-btn" id="stopBtn" disabled>
+                                <span class="btn-icon">⏹</span>
+                                <span class="btn-label">Остановить</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="panel-section">
+                        <h3>Регуляторы</h3>
+                        <div class="control-group">
+                            <div class="slider-control">
+                                <label for="speedSlider">Скорость вращения</label>
+                                <input type="range" id="speedSlider" min="0" max="100" value="0" disabled>
+                                <span class="value-display" id="speedValue">0%</span>
+                            </div>
+                            <div class="slider-control">
+                                <label for="pressureSlider">Давление</label>
+                                <input type="range" id="pressureSlider" min="0" max="10" value="1" step="0.5" disabled>
+                                <span class="value-display" id="pressureValue">1.0 Bar</span>
+                            </div>
+                            <div class="slider-control">
+                                <label for="tempSlider">Целевая температура</label>
+                                <input type="range" id="tempSlider" min="20" max="80" value="25" disabled>
+                                <span class="value-display" id="tempValue">25°C</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-section">
+                        <h3>Сценарии</h3>
+                        <div class="control-group">
+                            <button class="scenario-btn" id="normalBtn">
+                                <span>Нормальный режим</span>
+                            </button>
+                            <button class="scenario-btn" id="warningBtn" disabled>
+                                <span>⚠ Предупреждение</span>
+                            </button>
+                            <button class="scenario-btn" id="emergencyBtn" disabled>
+                                <span>🚨 Аварийная ситуация</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="panel-section">
+                        <h3>Диагностика</h3>
+                        <div class="control-group">
+                            <button class="control-btn info-btn" id="diagnosticBtn">
+                                <span class="btn-icon">🔍</span>
+                                <span class="btn-label">Провести диагностику</span>
+                            </button>
+                            <button class="control-btn reset-btn" id="resetBtn">
+                                <span class="btn-icon">↻</span>
+                                <span class="btn-label">Сброс</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="panel-section">
+                        <h3>Прогресс обучения</h3>
+                        <div class="progress-section">
+                            <div class="progress-item">
+                                <span>Правильные действия:</span>
+                                <span id="correctActions">0</span>
+                            </div>
+                            <div class="progress-item">
+                                <span>Ошибки:</span>
+                                <span id="errors">0</span>
+                            </div>
+                            <div class="progress-item">
+                                <span>Время сессии:</span>
+                                <span id="sessionTime">0:00</span>
+                            </div>
+                        </div>
+                        <div class="score-display">
+                            <div class="score-circle" id="scoreCircle">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="help-section">
+        <div class="container">
+            <h2>Справка по управлению</h2>
+            <div class="help-grid">
+                <div class="help-card">
+                    <h4>⚡ Питание</h4>
+                    <p>Включите питание перед началом работы. После включения станут доступны другие функции.</p>
+                </div>
+                <div class="help-card">
+                    <h4>▶ Запуск</h4>
+                    <p>После включения питания нажмите кнопку "Запустить" для активации системы.</p>
+                </div>
+                <div class="help-card">
+                    <h4>Регуляторы</h4>
+                    <p>Используйте ползунки для управления параметрами системы в реальном времени.</p>
+                </div>
+                <div class="help-card">
+                    <h4>Сценарии</h4>
+                    <p>Выбирайте различные сценарии для тренировки управления в разных условиях.</p>
+                </div>
+                <div class="help-card">
+                    <h4>🔍 Диагностика</h4>
+                    <p>Проводите проверку системы для обнаружения неисправностей и проблем.</p>
+                </div>
+                <div class="help-card">
+                    <h4>Оценка</h4>
+                    <p>Система автоматически оценивает ваши действия. Старайтесь получить максимальный результат.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 ЭЛОу АВТ - Тренажерный комплекс цифрового двойника. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="js/simulator.js"></script>
+</body>
+</html>
